@@ -19,6 +19,22 @@
 <body>
     <h1 class="text-center mt-3">Face App</h1>
     <div class="container">
+        <div>
+            <h5>Students in Class</h5>
+            <div class="mb-3">
+                <label for="studentsInput1" class="form-label">Students:</label>
+                <input type="number" class="form-control" id="studentsInput1" oninput="read_file()"
+                    onchange="read_file()">
+            </div>
+            <p id="studentAbsent">-</p>
+        </div>
+        <div class="d-flex">
+            <figure class="figure">
+                <img src="ef3-placeholder-image.jpg" class="figure-img img-fluid rounded" id="scanFigure"
+                    alt="Kommt gleich">
+                <figcaption class="figure-caption" id="captainCaption">A caption for the above image.</figcaption>
+            </figure>
+        </div>
 
         <div class="text-center">
             <div class="d-flex my-3">
@@ -26,10 +42,15 @@
                     <label for="formFile" class="form-label my-auto">File from Downloads</label>
                     <input class="form-control my-auto" type="file" id="formFile" onchange="read_file()">
                 </div>
-                <button type="button" class="btn btn-info my-auto ms-3" onclick="close_window()">Close</button>
+                <button type="button" class="btn btn-info my-auto ms-3" onclick="read_file()">Submit</button>
             </div>
         </div>
+
+
+
+
     </div>
+
 
 
 

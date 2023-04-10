@@ -3,6 +3,8 @@ import cv2
 import eel
 import time
 from os.path import expanduser
+from pathlib import Path
+from datetime import date
 
 download_dir = expanduser("~") + "\\Downloads\\"
 
@@ -23,45 +25,63 @@ def data_pass(data):
 @eel.expose
 def closeWindow():
     windowOpen = False;
+    
+    
+def saveImage(image, fileName, text):
+    # Create a folder
+    sysDate = str(date.today())
+    path = "web/temp/"+ sysDate
+    Path(path).mkdir(parents=True, exist_ok=True)
+    # Save the images inside the previously created folder
+    file = path + "/"  + fileName
+    print (file)
+    cv2.imwrite(file, image)
+    print("[INFO] Image {} has been saved".format(fileName))
+    eel.set_ScanFigure("temp/"+ sysDate + "/" + fileName, text)
 
 @eel.expose
 def scanFaces(fileName):
-    img = cv2.imread(download_dir + fileName)
-    grayImage = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    try:
+      img = cv2.imread(download_dir + fileName)
+      
+      grayImage = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-    faces = clf.detectMultiScale(
-        grayImage,
-        scaleFactor=1.1,
-        minNeighbors=5,
-        minSize=(10,10),
-        flags=cv2.CASCADE_SCALE_IMAGE
-    )
-        
-    i = 0
-    for(x, y, width, height) in faces:
-        cv2.rectangle(img,(x, y), (x+width, y+height), (255,255,0),2)
-        i = i+1
-        # Display the box and faces
-        cv2.putText(img, 'face num'+str(i), (x-10, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
-        print(i)
-        
-        
-    scale_percent = 35 # percent of original size
-    width = int(img.shape[1] * scale_percent / 100)
-    height = int(img.shape[0] * scale_percent / 100)
-    dim = (width, height)
+      faces = clf.detectMultiScale(
+          grayImage,
+          scaleFactor=1.1,
+          minNeighbors=5,
+          minSize=(10,10),
+          flags=cv2.CASCADE_SCALE_IMAGE
+      )
+          
+      i = 0
+      for(x, y, width, height) in faces:
+          cv2.rectangle(img,(x, y), (x+width, y+height), (255,255,0),2)
+          i = i+1
+          # Display the box and faces
+          cv2.putText(img, 'face num'+str(i), (x-10, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+          print(i)
+          
+          
+      scale_percent = 35 # percent of original size
+      width = int(img.shape[1] * scale_percent / 100)
+      height = int(img.shape[0] * scale_percent / 100)
+      dim = (width, height)
 
-    image = cv2.resize(img, dim, interpolation = cv2.INTER_AREA)
-    #cv2.imshow("Faces", image)
-    #windowOpen = True;
-    
-    while windowOpen:
-      if cv2.waitKey(1) & 0xFF == ord('q'): 
-        break
-    
-
-
-
+      image = cv2.resize(img, dim, interpolation = cv2.INTER_AREA)
+      #cv2.imshow("Faces", image)
+      #windowOpen = True;
+      
+      saveImage(image, fileName, len(faces))
+      
+      """
+      while windowOpen:
+          if cv2.waitKey(1) & 0xFF == ord('q'): 
+            break
+      """
+    except Exception:
+      print("Wrong File!")
+   
 
 eel.start('face.html')
 

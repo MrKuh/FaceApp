@@ -26,6 +26,18 @@ function close_window() {
   eel.closeWindow();
 }
 
+eel.expose(set_ScanFigure)
+function set_ScanFigure(file, faces) {
+  var facesAmount = parseInt(faces);
+  document.getElementById('scanFigure').src = file;
+  document.getElementById('captainCaption').innerHTML = "The Face Scan found " + facesAmount + " faces! :)";
+  var studentAmount = parseInt(document.getElementById('studentsInput1').value);
+  studentsAbsent = studentAmount - facesAmount;
+  document.getElementById('studentAbsent').innerHTML = "Students absent: " + studentsAbsent;
+
+
+}
+
 
 function read_file() {
   var file = document.getElementById("formFile").value;
