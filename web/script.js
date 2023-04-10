@@ -21,3 +21,14 @@ function send_data() {
   log('Sending data...')
   eel.data_pass(get_inputs())();
 }
+
+
+
+
+function read_file() {
+  var file = document.getElementById("formFile").value;
+  fileName = file.split("\\")[2];
+  console.log(fileName);
+  eel.scanFaces(fileName);
+}
+
