@@ -2,13 +2,9 @@ import pathlib
 import cv2
 import eel
 import time
+from os.path import expanduser
 
-eel.init('web')
-
-@eel.expose
-def data_pass(data):
-  print('Received values: {}'.format(str(data)))
-  eel.log('Transmitted values: {}'.format(str(data)))
+download_dir = expanduser("~") + "\\Downloads\\"
 
 cascade_path = pathlib.Path(cv2.__file__).parent.absolute() / "data/haarcascade_frontalface_default.xml"
 
@@ -17,14 +13,20 @@ clf = cv2.CascadeClassifier("./haarcascade_frontalface_default.xml")
 
 windowOpen = False;
 
+eel.init('web')
+
+@eel.expose
+def data_pass(data):
+  print('Received values: {}'.format(str(data)))
+  eel.log('Transmitted values: {}'.format(str(data)))
+
 @eel.expose
 def closeWindow():
     windowOpen = False;
 
-
 @eel.expose
 def scanFaces(fileName):
-    img = cv2.imread('C:/Users/micha/Downloads/' + fileName)
+    img = cv2.imread(download_dir + fileName)
     grayImage = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
     faces = clf.detectMultiScale(
@@ -50,8 +52,8 @@ def scanFaces(fileName):
     dim = (width, height)
 
     image = cv2.resize(img, dim, interpolation = cv2.INTER_AREA)
-    cv2.imshow("Faces", image)
-    windowOpen = True;
+    #cv2.imshow("Faces", image)
+    #windowOpen = True;
     
     while windowOpen:
       if cv2.waitKey(1) & 0xFF == ord('q'): 

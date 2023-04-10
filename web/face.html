@@ -21,9 +21,12 @@
     <div class="container">
 
         <div class="text-center">
-            <div class="mb-3">
-                <label for="formFile" class="form-label">Default file input example</label>
-                <input class="form-control" type="file" id="formFile" onchange="read_file()">
+            <div class="d-flex my-3">
+                <div class="d-flex flex-fill">
+                    <label for="formFile" class="form-label my-auto">File from Downloads</label>
+                    <input class="form-control my-auto" type="file" id="formFile" onchange="read_file()">
+                </div>
+                <button type="button" class="btn btn-info my-auto ms-3" onclick="close_window()">Close</button>
             </div>
         </div>
     </div>
