@@ -22,7 +22,9 @@ function send_data() {
   eel.data_pass(get_inputs())();
 }
 
-
+function close_window() {
+  eel.closeWindow();
+}
 
 
 function read_file() {
